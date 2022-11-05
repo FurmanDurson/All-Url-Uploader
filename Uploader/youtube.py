@@ -46,6 +46,7 @@ s2tw = OpenCC('s2tw.json').convert
 async def callback_query_ytdl_audio(_, callback_query):
     try:
         url = callback_query.message.reply_to_message.text
+        caption = url.split("|")[1]
         ydl_opts = {
             'format': 'bestaudio',
             'outtmpl': '%(title)s - %(extractor)s-%(id)s.%(ext)s',
@@ -61,7 +62,7 @@ async def callback_query_ytdl_audio(_, callback_query):
             # upload
             audio_file = ydl.prepare_filename(info_dict)
             task = asyncio.create_task(send_audio(message, info_dict,
-                                                  audio_file))
+                                                  audio_file,caption=caption))
             while not task.done():
                 await asyncio.sleep(3)
                 await message.reply_chat_action(enums.ChatAction.UPLOAD_DOCUMENT)

@@ -113,7 +113,9 @@ async def youtube_dl_call_back(bot, update):
     )
     description = Translation.CUSTOM_CAPTION_UL_FILE
     if "fulltitle" in response_json:
-        description = response_json["fulltitle"][:1021]
+      pass
+    youtube_dl_url = update.message.reply_to_message.text
+    description = youtube_dl_url.split("|")[1]      #response_json["fulltitle"][:1021]
         # escape Markdown and special characters
     tmp_directory_for_each_user = Config.DOWNLOAD_LOCATION + \
         "/" + str(update.from_user.id) + f'{random1}'
